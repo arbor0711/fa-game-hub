@@ -1,3 +1,4 @@
+import { IconType } from "react-icons/lib";
 import { HStack, Icon } from "@chakra-ui/react";
 import {
   FaWindows,
