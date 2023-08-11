@@ -35,7 +35,7 @@ function PlatformIconList({ platforms }: Props) {
     <HStack marginY={1}>
       {platforms.map((platform) => (
         // Element implicitly has an 'any' type because expression of type 'string' can't be used to index type
-        <Icon as={iconMap[platform.slug]} color="gray.500" />
+        <Icon key={platform.id} as={iconMap[platform.slug]} color="gray.500" />
       ))}
     </HStack>
   );
