@@ -1,9 +1,16 @@
+import { useState } from "react";
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
+import { Genre } from "./hooks/useGenres";
 
 function App() {
+  // With "useState(null)" I cannot set selectedGenre to different value other than null. Because the TS compiler doesn't know that this variable can store genre object. So I should add generic type argument to that -> "useState<Genre>(null)"
+
+  // Now I have a Compilation error says: "Argument of type 'null' is not assignable to parameter of type 'Genre | (() => Genre)'." -> So I should say that this variable could have Genre or null type
+  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+
   return (
     <Grid
       templateAreas={{
@@ -20,11 +27,15 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX="5">
-          <GenreList />
+          <GenreList
+            onSelectGenre={(genre) => {
+              setSelectedGenre(genre);
+            }}
+          />
         </GridItem>
       </Show>
       <GridItem area="main">
-        <GameGrid />
+        <GameGrid selectedGenre={selectedGenre} />
       </GridItem>
     </Grid>
   );
