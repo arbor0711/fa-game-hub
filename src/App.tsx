@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { Genre } from "./hooks/useGenres";
+import PlatformSelector from "./components/PlatformSelector";
 
 function App() {
   // With "useState(null)" I cannot set selectedGenre to different value other than null. Because the TS compiler doesn't know that this variable can store genre object. So I should add generic type argument to that -> "useState<Genre>(null)"
@@ -36,6 +37,7 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
+        <PlatformSelector />
         <GameGrid selectedGenre={selectedGenre} />
       </GridItem>
     </Grid>
