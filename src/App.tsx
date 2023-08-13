@@ -5,12 +5,16 @@ import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
+import { Platform } from "./hooks/usePlatforms";
 
 function App() {
   // With "useState(null)" I cannot set selectedGenre to different value other than null. Because the TS compiler doesn't know that this variable can store genre object. So I should add generic type argument to that -> "useState<Genre>(null)"
 
   // Now I have a Compilation error says: "Argument of type 'null' is not assignable to parameter of type 'Genre | (() => Genre)'." -> So I should say that this variable could have Genre or null type
   const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
+  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
+    null
+  );
 
   return (
     <Grid
@@ -37,8 +41,16 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PlatformSelector />
-        <GameGrid selectedGenre={selectedGenre} />
+        <PlatformSelector
+          selectedPlatform={selectedPlatform}
+          onSelectPlatform={(platform) => {
+            setSelectedPlatform(platform);
+          }}
+        />
+        <GameGrid
+          selectedGenre={selectedGenre}
+          selectedPlatform={selectedPlatform}
+        />
       </GridItem>
     </Grid>
   );
