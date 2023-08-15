@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import GameGrid from "./components/GameGrid";
 import GenreList from "./components/GenreList";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/usePlatforms";
+import SortSelector from "./components/SortSelector";
 export interface GameQuery {
   genre: Genre | null;
   platform: Platform | null;
@@ -39,13 +40,17 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PlatformSelector
-          selectedPlatform={gameQuery.platform}
-          onSelectPlatform={(platform) => {
-            // here if I forget to wrap all elements inside the parentheses in {}, it cause an error that says: "A spread argument must either have a tuple type or be passed to a rest parameter."
-            setGameQuery({ ...gameQuery, platform });
-          }}
-        />
+        <HStack paddingLeft={"15px"} mb={5} spacing={5}>
+          <PlatformSelector
+            selectedPlatform={gameQuery.platform}
+            onSelectPlatform={(platform) => {
+              // here if I forget to wrap all elements inside the parentheses in {}, it cause an error that says: "A spread argument must either have a tuple type or be passed to a rest parameter."
+              setGameQuery({ ...gameQuery, platform });
+            }}
+          />
+          <SortSelector />
+        </HStack>
+
         <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
