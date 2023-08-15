@@ -1,6 +1,5 @@
 import useData from "./useData";
-import { Genre } from "./useGenres";
-import { Platform as PLATFORM } from "./usePlatforms";
+import { GameQuery } from "./../App";
 export interface Platform {
   id: number;
   name: string;
@@ -14,19 +13,16 @@ export interface Game {
   metacritic: number;
   genres: string;
 }
-const useGames = (
-  selectedGenre: Genre | null,
-  selectedPlatform: PLATFORM | null
-) =>
+const useGames = (gameQuery: GameQuery) =>
   // In here I pass selectedGenre as query string parameter to the data hook
   useData<Game>(
     "/games",
     {
       params: {
-        genres: selectedGenre?.id,
-        platforms: selectedPlatform?.id,
+        genres: gameQuery.genre?.id,
+        platforms: gameQuery.platform?.id,
       },
     },
-    [selectedGenre?.id, selectedPlatform?.id]
+    [gameQuery]
   );
 export default useGames;

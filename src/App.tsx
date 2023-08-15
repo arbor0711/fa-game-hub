@@ -6,15 +6,13 @@ import GenreList from "./components/GenreList";
 import { Genre } from "./hooks/useGenres";
 import PlatformSelector from "./components/PlatformSelector";
 import { Platform } from "./hooks/usePlatforms";
-
+export interface GameQuery {
+  genre: Genre | null;
+  platform: Platform | null;
+}
 function App() {
-  // With "useState(null)" I cannot set selectedGenre to different value other than null. Because the TS compiler doesn't know that this variable can store genre object. So I should add generic type argument to that -> "useState<Genre>(null)"
-
-  // Now I have a Compilation error says: "Argument of type 'null' is not assignable to parameter of type 'Genre | (() => Genre)'." -> So I should say that this variable could have Genre or null type
-  const [selectedGenre, setSelectedGenre] = useState<Genre | null>(null);
-  const [selectedPlatform, setSelectedPlatform] = useState<Platform | null>(
-    null
-  );
+  //  TS does not alow me to assign to an empty object with GameQuery object. So I add 'as GameQuery'
+  const [gameQuery, setGameQuery] = useState<GameQuery>({} as GameQuery);
 
   return (
     <Grid
@@ -33,24 +31,22 @@ function App() {
       <Show above="lg">
         <GridItem area="aside" paddingX="5">
           <GenreList
-            selectedGenre={selectedGenre}
+            selectedGenre={gameQuery.genre}
             onSelectGenre={(genre) => {
-              setSelectedGenre(genre);
+              setGameQuery({ ...gameQuery, genre });
             }}
           />
         </GridItem>
       </Show>
       <GridItem area="main">
         <PlatformSelector
-          selectedPlatform={selectedPlatform}
+          selectedPlatform={gameQuery.platform}
           onSelectPlatform={(platform) => {
-            setSelectedPlatform(platform);
+            // here if I forget to wrap all elements inside the parentheses in {}, it cause an error that says: "A spread argument must either have a tuple type or be passed to a rest parameter."
+            setGameQuery({ ...gameQuery, platform });
           }}
         />
-        <GameGrid
-          selectedGenre={selectedGenre}
-          selectedPlatform={selectedPlatform}
-        />
+        <GameGrid gameQuery={gameQuery} />
       </GridItem>
     </Grid>
   );
