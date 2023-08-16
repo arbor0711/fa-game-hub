@@ -17,9 +17,10 @@ interface Props {
 }
 
 const GenreList = ({ onSelectGenre, selectedGenre }: Props) => {
+  // I do not change the below line to not affect any other component that is dependent to it.
   const { data, isLoading, error } = useGenres();
-  if (error) return null;
-  if (isLoading) return <Spinner />;
+  // if (error) return null;
+  // if (isLoading) return <Spinner />;
   return (
     <>
       <Heading fontSize="2xl" mb={3}>
