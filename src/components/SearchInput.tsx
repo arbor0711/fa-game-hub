@@ -1,18 +1,30 @@
 import { Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
-import { color } from "framer-motion";
+import { useRef } from "react";
 import { BsSearch } from "react-icons/bs";
-
-const SearchInput = () => {
+interface Props {
+  onSearch: (searchText: string) => void;
+}
+const SearchInput = ({ onSearch }: Props) => {
+  const ref = useRef<HTMLInputElement>(null);
   return (
-    <InputGroup mx={{ base: 0, md: 5 }}>
-      <InputLeftElement children={<BsSearch />} color="gray.300" />
-
-      <Input
-        borderRadius={20}
-        placeholder="search games..."
-        variant={"filled"}
-      />
-    </InputGroup>
+    <form
+      // first I added inline style here but Mosh said that as BP inline style should be the last option. So I add ths style to all form elements in index.css file.
+      // style={{ width: "100%" }}
+      onSubmit={(event) => {
+        event.preventDefault();
+        if (ref.current) onSearch(ref.current.value);
+      }}
+    >
+      <InputGroup>
+        <InputLeftElement children={<BsSearch />} color="gray.300" />
+        <Input
+          borderRadius={20}
+          placeholder="search games..."
+          variant={"filled"}
+          ref={ref}
+        />
+      </InputGroup>
+    </form>
   );
 };
 
